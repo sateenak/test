@@ -15,10 +15,16 @@
         <div class="flex flex-col items-center my-6 uk-visible@s">
             <div
                 class="bg-gradient-to-tr from-yellow-600 to-pink-600 p-1 rounded-full transition m-0.5 mr-2  w-24 h-24">
-                <img src={{ asset("assets/images/avatars/avatar-2.jpg") }}
+                @if (auth()->user()->profile)
+                <img src={{ asset("storage/". auth()->user()->profile) }}
+                class="bg-gray-200 border-4 border-white rounded-full w-full h-full">
+                @else
+                    <img src={{ asset("assets/images/avatars/avatar-2.jpg") }}
                     class="bg-gray-200 border-4 border-white rounded-full w-full h-full">
+                @endif
+                
             </div>
-            <a href="profile" class="text-xl font-medium capitalize mt-4 uk-link-reset">{{ auth()->User()->name }}
+            <a href="/user/{{ Auth::user()->username }}" class="text-xl font-medium capitalize mt-4 uk-link-reset">{{ auth()->User()->name }}
             </a>
             <div class="flex justify-around w-full items-center text-center uk-link-reset text-gray-800 mt-6">
                 <div>
@@ -28,13 +34,13 @@
                     </a>
                 </div>
                 <div>
-                    <a href="#story-modal2" uk-toggle>
+                    <a href="#story-modal66" uk-toggle>
                         <strong>Following</strong>
                         <div> {{ Auth::user()->follows()->count() }}</div>
                     </a>
                 </div>
                 <div>
-                    <a href="#story-modal3" uk-toggle>
+                    <a href="#story-modal77" uk-toggle>
                         <strong>Followers</strong>
                         <div> {{ Auth::user()->followers()->count() }}</div>
                     </a>
@@ -90,7 +96,7 @@
             </li>
             <li>
                 @yield('profile')
-                <a href="/user/{{ auth()->user()->id }}"> 
+                <a href="/user/{{ auth()->user()->username }}"> 
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                     </svg>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FollowController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\RegisterController;
@@ -32,6 +33,7 @@ Route::resource('/post', PostController::class)->middleware('auth');
 Route::resource('/', PostController::class)->middleware('auth');
 Route::get('/feed', [PostController::class, 'index'])->middleware('auth');
 Route::resource('/user', UserController::class)->middleware('auth');
+Route::post('/profile/follow/{user}', [FollowController::class, 'store'])->name('follow.store');
 Route::get('/form-login', [LoginController::class, 'index'])->name('login')->middleware('guest');
 Route::post('/form-login', [LoginController::class, 'store']);
 Route::post('/logout', [LoginController::class, 'logout']);
@@ -39,7 +41,15 @@ Route::get('/form-register', [RegisterController::class, 'index'])->middleware('
 Route::post('/form-register', [RegisterController::class, 'store']);
 Route::get('/trending', function () {
     return view('trending', [
-        'title'=>'trending',
+        'title' => 'trending',
+        'posts' => Post::where('user_id', auth()->User()->id)->latest()->get(),
+        'user' => auth()->User()->id,
+        'count' => Post::where('user_id', auth()->User()->id)->get()
+    ]);
+});
+Route::get('/explore', function () {
+    return view('explore', [
+        'title' => 'explore',
         'posts' => Post::where('user_id', auth()->User()->id)->latest()->get(),
         'user' => auth()->User()->id,
         'count' => Post::where('user_id', auth()->User()->id)->get()
