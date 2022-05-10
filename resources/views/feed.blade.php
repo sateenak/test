@@ -15,7 +15,7 @@
                 <div class="lg:flex justify-center lg:space-x-10 lg:space-y-0 space-y-5">
 
                     <!-- left sidebar-->
-                    <div class="space-y-5 flex-shrink-0 lg:w-7/12">
+                    <div class="space-y-5 flex-shrink-0 lg:w-7/12" id="sateSate">
 @foreach ($posts as $post)
                         <!-- post 1-->
                         <div class="bg-white shadow rounded-md dark:bg-gray-900 -mx-2 lg:mx-0">
@@ -105,14 +105,15 @@
                             <div class="py-3 px-4 space-y-3"> 
                                
                                 <div class="flex space-x-4 lg:font-bold">
-                                    <a href="#" class="flex items-center space-x-2">
-                                        <div class="p-2 rounded-full text-black">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-100">
-                                                <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
-                                            </svg>
-                                        </div>
-                                        <div> Like</div>
-                                    </a>
+                                    <form class="flex items-center space-x-2">
+                                        @csrf
+                                        <input type="hidden" name="user_id" id="user_id" value="{{ auth()->user()->id }}">
+                                        <input type="hidden" name="post_id" id="post_id" value="{{ $post->id }}">
+                                            <div class="p-2 rounded-full text-black">
+                                                <i class="icon-feather-thumbs-up"></i>
+                                            </div> 
+                                        <div>{{ $post->likes() }}</div>
+                                        </form>
                                     <a href="#" class="flex items-center space-x-2">
                                         <div class="p-2 rounded-full text-black">
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-100">
@@ -316,4 +317,30 @@
 
         </div>
     </div>
+    <script>
+        const sate = document.querySelector('#sateSate');
+        sate.addEventListener('click', function(e){
+            let user_id = e.target.parentElement.previousElementSibling.previousElementSibling.getAttribute('value');
+            let post_id = e.target.parentElement.previousElementSibling.getAttribute('value');
+            let _token = $('input[name="_token"]').val();
+            let url = '{{ route('like.add') }}';
+                        $.ajax({
+                url:url,
+                type:"POST",
+                data:{
+                    user_id:user_id,
+                    post_id:post_id,
+                    _token:_token
+                },
+             success:function(response){
+                if (response) {
+                    alert('oke');
+                }
+             },
+             error:function(error){
+      console.log(error)
+   }   
+            });
+        });
+    </script>
     @endsection

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\FollowController;
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\RegisterController;
@@ -55,3 +56,4 @@ Route::get('/explore', function () {
         'count' => Post::where('user_id', auth()->User()->id)->get()
     ]);
 });
+Route::post('/feed/like', [LikeController::class, 'store'])->name('like.add');

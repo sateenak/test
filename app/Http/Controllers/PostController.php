@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Follow;
+use App\Models\Like;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -32,7 +33,7 @@ class PostController extends Controller
             'posts' => $postsaya,
             'user' => auth()->User()->id,
             'count' => Post::where('user_id', auth()->User()->id)->get(),
-            'followers'=> $data,
+            'followers' => $data,
         ]);
     }
 
@@ -47,7 +48,7 @@ class PostController extends Controller
         return view('create', [
             'title' => 'create',
             'count' => $post->where('user_id', auth()->User()->id)->get(),
-            'followers'=> $data
+            'followers' => $data
         ]);
     }
 
@@ -97,7 +98,7 @@ class PostController extends Controller
             'title' => 'edit',
             'count' => $post->where('user_id', auth()->User()->id)->get(),
             'post' => $post,
-            'followers'=> $data
+            'followers' => $data
         ]);
     }
 

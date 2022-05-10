@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/uikit.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/tailwind.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
     @yield('style')
 </head>
@@ -147,12 +148,10 @@
          <!-- Scripts
             ================================================== -->
             <script src="{{ asset('assets/js/tippy.all.min.js') }}"></script>  
-            <script src="{{ asset('assets/js/jquery-3.3.1.min.js') }}"></script>
+            {{-- <script src="{{ asset('assets/js/jquery-3.3.1.min.js') }}"></script> --}}
             <script src="{{ asset('assets/js/uikit.js') }}"></script>
             <script src="{{ asset('assets/js/simplebar.js') }}"></script>
             <script src="{{ asset('assets/js/custom.js') }}"></script>
-        
-        
             <script src="{{ asset('assets/unpkg.com/ionicons%405.2.3/dist/ionicons.js') }}"></script>
         </body>
         
