@@ -23,7 +23,7 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Post $post)
     {
         $user = Auth::user()->follows->pluck('id');
         $postsaya = Post::whereIn('user_id', $user)->orWhere('user_id', Auth::user()->id)->latest()->get();
@@ -34,6 +34,7 @@ class PostController extends Controller
             'user' => auth()->User()->id,
             'count' => Post::where('user_id', auth()->User()->id)->get(),
             'followers' => $data,
+            'like' => Like::all()
         ]);
     }
 
@@ -98,7 +99,7 @@ class PostController extends Controller
             'title' => 'edit',
             'count' => $post->where('user_id', auth()->User()->id)->get(),
             'post' => $post,
-            'followers' => $data
+            'followers' => $data,
         ]);
     }
 

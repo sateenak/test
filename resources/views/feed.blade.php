@@ -8,7 +8,7 @@
 <li class="active">
 @endsection
 @section('container')
-           <div class="container m-auto">
+           <div class="container m-auto" id="containn">
 
                 <h1 class="lg:text-2xl text-lg font-extrabold leading-none text-gray-900 tracking-tight mb-5"> Feed </h1>
 
@@ -105,14 +105,14 @@
                             <div class="py-3 px-4 space-y-3"> 
                                
                                 <div class="flex space-x-4 lg:font-bold">
-                                    <form class="flex items-center space-x-2">
+                                    <form class="flex items-center space-x-2" id="formUntuk{{ $post->id }}">
                                         @csrf
                                         <input type="hidden" name="user_id" id="user_id" value="{{ auth()->user()->id }}">
                                         <input type="hidden" name="post_id" id="post_id" value="{{ $post->id }}">
                                             <div class="p-2 rounded-full text-black">
                                                 <i class="icon-feather-thumbs-up"></i>
-                                            </div> 
-                                        <div>{{ $post->likes() }}</div>
+                                            </div>
+                                        <div id="likee">{{ $post->likes() }}</div>
                                         </form>
                                     <a href="#" class="flex items-center space-x-2">
                                         <div class="p-2 rounded-full text-black">
@@ -324,17 +324,20 @@
             let post_id = e.target.parentElement.previousElementSibling.getAttribute('value');
             let _token = $('input[name="_token"]').val();
             let url = '{{ route('like.add') }}';
+            let hasLike = e.target.parentElement.nextElementSibling;
+            let kukuku = e.target.parentElement.parentElement;
+            let hii = e.target.parentElement.parentElement.getAttribute('id');
                         $.ajax({
                 url:url,
                 type:"POST",
                 data:{
                     user_id:user_id,
                     post_id:post_id,
-                    _token:_token
+                    _token:_token,
                 },
              success:function(response){
                 if (response) {
-                    alert('oke');
+                    $(kukuku).load('/feed '+'#'+hii);
                 }
              },
              error:function(error){
