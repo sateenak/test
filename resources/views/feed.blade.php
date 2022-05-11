@@ -110,9 +110,16 @@
                                         <input type="hidden" name="user_id" id="user_id" value="{{ auth()->user()->id }}">
                                         <input type="hidden" name="post_id" id="post_id" value="{{ $post->id }}">
                                             <div class="p-2 rounded-full text-black">
-                                                <i class="icon-feather-thumbs-up"></i>
+                                                     <i class="uil-thumbs-up" style="color: @foreach ($likePost as $item)
+                                                     @if ($item != $post->id)
+                                                          @else
+                                                              red
+                                                              @break       
+                                                          
+                                                          @endif
+                                                     @endforeach"></i>
                                             </div>
-                                        <div id="likee">{{ $post->likes() }}</div>
+                                        <div id="likee{{ $post }}">{{ $post->likes() }}</div>
                                         </form>
                                     <a href="#" class="flex items-center space-x-2">
                                         <div class="p-2 rounded-full text-black">
@@ -319,6 +326,13 @@
     </div>
     <script>
         const sate = document.querySelector('#sateSate');
+        let hi = {{ json_encode($likePost) }}
+        console.log(hi);
+        // if (likePost == 3) {
+        //     console.log('benar');
+        // }else{
+        //     console.log('salah');
+        // }
         sate.addEventListener('click', function(e){
             let user_id = e.target.parentElement.previousElementSibling.previousElementSibling.getAttribute('value');
             let post_id = e.target.parentElement.previousElementSibling.getAttribute('value');
@@ -326,6 +340,7 @@
             let url = '{{ route('like.add') }}';
             let hasLike = e.target.parentElement.nextElementSibling;
             let kukuku = e.target.parentElement.parentElement;
+            let thumb = e.target;
             let hii = e.target.parentElement.parentElement.getAttribute('id');
                         $.ajax({
                 url:url,

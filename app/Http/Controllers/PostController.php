@@ -34,7 +34,8 @@ class PostController extends Controller
             'user' => auth()->User()->id,
             'count' => Post::where('user_id', auth()->User()->id)->get(),
             'followers' => $data,
-            'like' => Like::all()
+            'likeUser' => Like::where('user_id', auth()->user()->id)->pluck('user_id'),
+            'likePost' => Like::where('user_id', auth()->user()->id)->pluck('post_id')
         ]);
     }
 

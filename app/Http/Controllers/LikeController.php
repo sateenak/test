@@ -35,11 +35,17 @@ class LikeController extends Controller
      */
     public function store(Request $request)
     {
-        $like = new Like();
-        $like->user_id = $request->user_id;
-        $like->post_id = $request->post_id;
-        $like->save();
-        return response()->json($like);
+        $coba = Like::where('user_id', auth()->user()->id)->where('post_id', $request->post_id)->exists();
+        if ($coba) {
+            $hapuss = Like::where('user_id', auth()->user()->id)->where('post_id', $request->post_id)->delete();
+            return response()->json($coba);
+        } else {
+            $like = new Like();
+            $like->user_id = $request->user_id;
+            $like->post_id = $request->post_id;
+            $like->save();
+            return response()->json($like);
+        }
     }
 
     /**
