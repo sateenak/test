@@ -152,9 +152,6 @@
             <script src="{{ asset('assets/js/uikit.js') }}"></script>
             <script src="{{ asset('assets/js/simplebar.js') }}"></script>
             <script src="{{ asset('assets/js/custom.js') }}"></script>
-            <script src="{{ asset('assets/unpkg.com/ionicons%405.2.3/dist/ionicons.js') }}"></script>
+            {{-- <script src="{{ asset('assets/unpkg.com/ionicons@5.2.3/dist/ionicons.js') }}"></script> --}}
         </body>
-        
-        
-        <!-- Mirrored from demo.foxthemes.net/instellohtml/chat.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 25 Mar 2022 03:35:58 GMT -->
         </html>

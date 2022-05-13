@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FollowController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\LoginController;
@@ -57,3 +58,4 @@ Route::get('/explore', function () {
     ]);
 });
 Route::post('/feed/like', [LikeController::class, 'store'])->name('like.add');
+Route::post('/feed/comment', [CommentController::class, 'store'])->name('comment.add');

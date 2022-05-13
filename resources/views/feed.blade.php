@@ -17,6 +17,80 @@
                     <!-- left sidebar-->
                     <div class="space-y-5 flex-shrink-0 lg:w-7/12" id="sateSate">
 @foreach ($posts as $post)
+<div id="story-modal{{ $post->id }}b" class="uk-modal-container" uk-modal>
+    <div class="uk-modal-dialog story-modal">
+        <button class="uk-modal-close-default lg:-mt-9 lg:-mr-9 -mt-5 -mr-5 shadow-lg bg-white rounded-full p-4 transition dark:bg-gray-600 dark:text-white" type="button" uk-close></button>
+
+            <div class="story-modal-media">
+                <img src="{{ asset('/storage/'.$post->image) }}" alt=""  class="inset-0 h-full w-full object-cover">
+            </div>
+            <div class="flex-1 bg-white dark:bg-gray-900 dark:text-gray-100" id="commentLoad{{ $post->id }}">
+            
+                <!-- post header-->
+                <div class="border-b flex items-center justify-between px-5 py-3 dark:border-gray-600">
+                    <div class="flex flex-1 items-center space-x-4">
+                        <a href="#">
+                            <div class="bg-gradient-to-tr from-yellow-600 to-pink-600 p-0.5 rounded-full">
+                                <img src="assets/images/avatars/avatar-2.jpg"
+                                    class="bg-gray-200 border border-white rounded-full w-8 h-8">
+                            </div>
+                        </a>
+                        <span class="block text-lg font-semibold"> {{ $post->user->name }} </span>
+                    </div>
+                    <a href="#"> 
+                        <i  class="icon-feather-more-horizontal text-2xl rounded-full p-2 transition -mr-1"></i>
+                    </a>
+                </div>
+                <div class="story-content p-4" data-simplebar id="kotakUntukComent{{ $post->id }}">
+
+                    <p> {{ $post->content }} </p>
+                    
+                    <div class="py-4 ">
+                        <hr class="-mx-4 my-3">
+                        <div class="flex items-center space-x-3"> 
+                            <div class="flex items-center">
+                                <img src="assets/images/avatars/avatar-1.jpg" alt="" class="w-6 h-6 rounded-full border-2 border-white">
+                                <img src="assets/images/avatars/avatar-4.jpg" alt="" class="w-6 h-6 rounded-full border-2 border-white -ml-2">
+                                <img src="assets/images/avatars/avatar-2.jpg" alt="" class="w-6 h-6 rounded-full border-2 border-white -ml-2">
+                            </div>
+                            <div>
+                                Liked <strong> Johnson</strong> and <strong> 209 Others </strong>
+                            </div>
+                        </div>
+                    </div>
+
+                <div class="-mt-1 space-y-1">
+                    @foreach ($post->comments as $item)
+                    <div class="flex flex-1 items-center space-x-2">
+                        <img src="assets/images/avatars/avatar-2.jpg" class="rounded-full w-8 h-8">
+                        <div class="flex-1 p-2">
+                            {{ $item->body }}
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+
+
+                </div>
+                <div class="p-3 border-t dark:border-gray-600">
+                    <div class="bg-gray-200 dark:bg-gray-700 rounded-full rounded-md relative">
+                        <form action="">
+                            @csrf
+                            <input type="hidden" name="user_id" id="user_id" value="{{ auth()->user()->id }}">
+                            <input type="hidden" name="post_id" id="post_id" value="{{ $post->id }}">
+                            <input type="text" placeholder="Add your Comment.." class="bg-transparent max-h-8 shadow-none">
+                        <div class="absolute bottom-0 flex h-full items-center right-0 right-3 text-xl space-x-2">
+                            <i class="uil-arrow-circle-right" id="arrowKirim"></i>
+                        </div>
+                        </form>
+                        
+                    </div>
+                </div>
+
+            </div>
+
+    </div>
+</div>
                         <!-- post 1-->
                         <div class="bg-white shadow rounded-md dark:bg-gray-900 -mx-2 lg:mx-0">
     
@@ -103,9 +177,9 @@
                             
     
                             <div class="py-3 px-4 space-y-3"> 
-                               
-                                <div class="flex space-x-4 lg:font-bold">
-                                    <form class="flex items-center space-x-2" id="formUntuk{{ $post->id }}">
+                               <div id="formUntuk{{ $post->id }}">
+                                   <div class="flex space-x-4 lg:font-bold">
+                                    <form class="flex items-center space-x-2">
                                         @csrf
                                         <input type="hidden" name="user_id" id="user_id" value="{{ auth()->user()->id }}">
                                         <input type="hidden" name="post_id" id="post_id" value="{{ $post->id }}">
@@ -115,19 +189,16 @@
                                                           @else
                                                               red
                                                               @break       
-                                                          
                                                           @endif
                                                      @endforeach"></i>
                                             </div>
-                                        <div id="likee{{ $post }}">{{ $post->likes() }}</div>
-                                        </form>
-                                    <a href="#" class="flex items-center space-x-2">
-                                        <div class="p-2 rounded-full text-black">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-100">
-                                                <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd" />
-                                            </svg>
+                                        <div id="likee{{ $post }}">{{ $post->likes()->count('user_id') }}</div>
+                                    </form>
+                                    <a href="#story-modal{{ $post->id }}b" uk-toggle class="flex items-center space-x-2">
+                                        <div class="rounded-full text-black ml-2">
+                                            <i class="uil-comment-alt-lines"></i>
                                         </div>
-                                        <div> Comment</div>
+                                        <div>Comment</div>
                                     </a>
                                     <a href="#" class="flex items-center space-x-2 flex-1 justify-end">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-100">
@@ -142,40 +213,42 @@
                                         <img src="assets/images/avatars/avatar-4.jpg" alt="" class="w-6 h-6 rounded-full border-2 border-white dark:border-gray-900 -ml-2">
                                         <img src="assets/images/avatars/avatar-2.jpg" alt="" class="w-6 h-6 rounded-full border-2 border-white dark:border-gray-900 -ml-2">
                                     </div>
-                                    <div class="dark:text-gray-100">
-                                        Liked <strong> Johnson</strong> and <strong> 209 Others </strong>
+                                    <div class="dark:text-gray-100" id="Liked{{ $post->id }}">
+                                        
+                                            Liked <strong> </strong> and <strong> 209 Others </strong> 
+                                        
+                                           
                                     </div>
                                 </div>
+                               </div>
+                                
 
-                                <div class="border-t pt-4 space-y-4 dark:border-gray-600">
-                                    <div class="flex">
+                                <div class="border-t pt-4 space-y-4 dark:border-gray-600" id="commentUser{{ $post->id }}">
+                                    @foreach ($post->comments()->latest()->limit(2)->get() as $item)
+                                        <div class="flex">
                                         <div class="w-10 h-10 rounded-full relative flex-shrink-0">
                                             <img src="assets/images/avatars/avatar-1.jpg" alt="" class="absolute h-full rounded-full w-full">
                                         </div>
                                         <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 h-full relative lg:ml-5 ml-2 lg:mr-20  dark:bg-gray-800 dark:text-gray-100">
-                                            <p class="leading-6">In ut odio libero vulputate <urna class="i uil-heart"></urna> <i
+                                            <p class="leading-6">{{ $item->body }} <urna class="i uil-heart"></urna> <i
                                                     class="uil-grin-tongue-wink"> </i> </p>
                                             <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
                                         </div>
                                     </div>
-                                    <div class="flex">
-                                        <div class="w-10 h-10 rounded-full relative flex-shrink-0">
-                                            <img src="assets/images/avatars/avatar-1.jpg" alt="" class="absolute h-full rounded-full w-full">
-                                        </div>
-                                        <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 h-full relative lg:ml-5 ml-2 lg:mr-20  dark:bg-gray-800 dark:text-gray-100">
-                                            <p class="leading-6">Nam liber tempor cum soluta nobis eleifend option <i class="uil-grin-tongue-wink-alt"></i>
-                                            </p>
-                                            <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
-                                        </div>
-                                    </div>
+                                    @endforeach
                                 </div>
 
                                 <div class="bg-gray-100 bg-gray-100 rounded-full rounded-md relative dark:bg-gray-800">
-                                    <input type="text" placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none">
+                                    <form>
+                                        @csrf
+                                        <input type="text" name="comment_body" placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none" id="commentBox{{ $post->id }}">
+                                        <input type="hidden" name="user_id" id="user_id2" value="{{ auth()->user()->id }}">
+                                        <input type="hidden" name="post_id" id="post_id2" value="{{ $post->id }}">
                                     <div class="absolute bottom-0 flex h-full items-center right-0 right-3 text-xl space-x-2">
-                                        <a href="#"> <i class="uil-image"></i></a>
-                                        <a href="#"> <i class="uil-video"></i></a>
+                                            <i class="uil-arrow-circle-right"></i>
                                     </div>
+                                    </form>
+                                    
                                 </div>
     
                             </div>
@@ -291,9 +364,6 @@
         </div>
 
     </div>
-
-
-
     <!-- Story modal -->
     <div id="story-modal" class="uk-modal-container" uk-modal>
         <div class="uk-modal-dialog story-modal">
@@ -325,23 +395,41 @@
         </div>
     </div>
     <script>
-        const sate = document.querySelector('#sateSate');
-        let hi = {{ json_encode($likePost) }}
-        console.log(hi);
-        // if (likePost == 3) {
-        //     console.log('benar');
-        // }else{
-        //     console.log('salah');
-        // }
+        $(document).on("click", "#arrowKirim", function(event){
+            const post_id = event.target.parentElement.previousElementSibling.previousElementSibling.value;
+            const user_id = event.target.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.value;
+            const comment_body = event.target.parentElement.previousElementSibling.value;
+            let url = '{{ route('comment.add') }}';
+            let _token = $('input[name="_token"]').val();
+            let loadID = event.target.parentElement.parentElement.parentElement.parentElement.parentElement.getAttribute('id');
+            $.ajax({
+                url:url,
+                type:"POST",
+                data:{
+                    user_id:user_id,
+                    post_id:post_id,
+                    comment_body:comment_body,
+                    _token:_token,
+                },
+             success:function(response){
+                if (response) {
+                    $('#'+loadID).load('/feed '+'#'+loadID);
+                }
+             },
+             error:function(error){
+                console.log(error);
+                 }   
+            });
+    });
+        const sate = document.getElementById('sateSate');
         sate.addEventListener('click', function(e){
-            let user_id = e.target.parentElement.previousElementSibling.previousElementSibling.getAttribute('value');
+            if (e.target.className == "uil-thumbs-up") {
+                let user_id = e.target.parentElement.previousElementSibling.previousElementSibling.getAttribute('value');
             let post_id = e.target.parentElement.previousElementSibling.getAttribute('value');
             let _token = $('input[name="_token"]').val();
             let url = '{{ route('like.add') }}';
-            let hasLike = e.target.parentElement.nextElementSibling;
-            let kukuku = e.target.parentElement.parentElement;
-            let thumb = e.target;
-            let hii = e.target.parentElement.parentElement.getAttribute('id');
+            let hii = e.target.parentElement.parentElement.parentElement.parentElement.getAttribute('id');
+            console.log(hii);
                         $.ajax({
                 url:url,
                 type:"POST",
@@ -352,13 +440,41 @@
                 },
              success:function(response){
                 if (response) {
-                    $(kukuku).load('/feed '+'#'+hii);
+                    $('#'+hii).load('/feed '+'#'+hii);
                 }
              },
              error:function(error){
-      console.log(error)
-   }   
+                console.log(error)
+                 }   
             });
+            }else if(e.target.className == "uil-arrow-circle-right") {
+                let post_id = e.target.parentElement.previousElementSibling.value;
+                let user_id = e.target.parentElement.previousElementSibling.previousElementSibling.value;
+                let comment_body = e.target.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.value;
+                let commentBoxId = e.target.parentElement.parentElement.parentElement.previousElementSibling.getAttribute('id');
+                let url = '{{ route('comment.add') }}';
+                let _token = $('input[name="_token"]').val();
+                $.ajax({
+                url:url,
+                type:"POST",
+                data:{
+                    user_id:user_id,
+                    post_id:post_id,
+                    comment_body:comment_body,
+                    _token:_token,
+                },
+             success:function(response){
+                if (response) {
+                    $('#'+commentBoxId).load('/feed '+'#'+commentBoxId);
+                    
+                }
+             },
+             error:function(error){
+                console.log(error)
+                 }   
+            });
+            }
+            
         });
     </script>
     @endsection

@@ -19,6 +19,10 @@ class Post extends Model
     }
     public function likes()
     {
-        return $this->hasMany(Like::class, 'post_id')->count('user_id');
+        return $this->hasMany(Like::class, 'post_id')->latest()->get();
+    }
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable')->whereNull('parent_id')->latest();
     }
 }

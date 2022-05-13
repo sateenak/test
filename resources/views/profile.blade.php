@@ -161,9 +161,9 @@
                             <img src="{{ asset('/storage/'.$post->image) }}" class="w-full h-full absolute object-cover inset-0">
 
                             <div class="absolute bg-black bg-opacity-40 bottom-0 flex h-full items-center justify-center space-x-5 text-lg text-white uk-transition-scale-up w-full">   
-                                <a href="#story-modal{{ $post->id }}" uk-toggle class="flex items-center"> <ion-icon name="heart" class="mr-1"></ion-icon> 150 </a>
-                                <a href="#story-modal{{ $post->id }}" uk-toggle class="flex items-center"> <ion-icon name="chatbubble-ellipses" class="mr-1"></ion-icon> 30 </a>
-                                <a href="#story-modal{{ $post->id }}" uk-toggle class="flex items-center"> <ion-icon name="pricetags" class="mr-1"></ion-icon> 12  </a>
+                                <a href="#story-modal{{ $post->id }}a" uk-toggle class="flex items-center"> <ion-icon name="heart" class="mr-1"></ion-icon> 150 </a>
+                                <a href="#story-modal{{ $post->id }}a" uk-toggle class="flex items-center"> <ion-icon name="chatbubble-ellipses" class="mr-1"></ion-icon> 30 </a>
+                                <a href="#story-modal{{ $post->id }}a" uk-toggle class="flex items-center"> <ion-icon name="pricetags" class="mr-1"></ion-icon> 12  </a>
                             </div>
 
                         </div>
@@ -185,7 +185,7 @@
 
    <!-- Story modal -->
    @foreach ($posts as $post)
-          <div id="story-modal{{ $post->id }}" class="uk-modal-container" uk-modal>
+          <div id="story-modal{{ $post->id }}a" class="uk-modal-container" uk-modal>
         <div class="uk-modal-dialog story-modal">
             <button class="uk-modal-close-default lg:-mt-9 lg:-mr-9 -mt-5 -mr-5 shadow-lg bg-white rounded-full p-4 transition dark:bg-gray-600 dark:text-white" type="button" uk-close></button>
 

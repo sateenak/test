@@ -64,7 +64,7 @@ class PostController extends Controller
     {
         $validatedData = $request->validate([
             'content' => 'required|max:500',
-            'image' => 'image|file|max:6000'
+            'image' => 'file|max:6000'
         ]);
         if ($request->file('image')) {
             $validatedData['image'] = $request->file('image')->store('post-images');
