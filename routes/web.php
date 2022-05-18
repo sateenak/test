@@ -59,3 +59,4 @@ Route::get('/explore', function () {
 });
 Route::post('/feed/like', [LikeController::class, 'store'])->name('like.add');
 Route::post('/feed/comment', [CommentController::class, 'store'])->name('comment.add');
+Route::get('/home', [PostController::class, 'index'])->middleware('auth');

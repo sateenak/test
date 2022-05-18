@@ -21,6 +21,10 @@ class Post extends Model
     {
         return $this->hasMany(Like::class, 'post_id')->latest()->get();
     }
+    public function likepertama()
+    {
+        return $this->hasMany(Like::class, 'post_id')->latest()->get();
+    }
     public function comments()
     {
         return $this->morphMany(Comment::class, 'commentable')->whereNull('parent_id')->latest();

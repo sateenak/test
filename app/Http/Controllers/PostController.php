@@ -32,7 +32,7 @@ class PostController extends Controller
             'title' => 'feed',
             'posts' => $postsaya,
             'user' => auth()->User()->id,
-            'count' => Post::where('user_id', auth()->User()->id)->get(),
+            'count' => Post::where('user_id', auth()->user()->id)->get(),
             'followers' => $data,
             'likeUser' => Like::where('user_id', auth()->user()->id)->pluck('user_id'),
             'likePost' => Like::where('user_id', auth()->user()->id)->pluck('post_id')

@@ -56,8 +56,5 @@
     imgPreview.src = oFREvent.target.result;
   }
   }
-  $('#button').click(function(){
-   $("input[type='file']").trigger('click');
-})
   </script>
 @endsection

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Like extends Model
 {
     use HasFactory;
-    protected $fillable = ['user_id', 'post_id'];
+    protected $fillable = ['user_id', 'post_id', 'user_name'];
     public function post()
     {
         return $this->belongsTo(Post::class, 'post_id')->count('user_id');

@@ -48,14 +48,7 @@
                     <div class="py-4 ">
                         <hr class="-mx-4 my-3">
                         <div class="flex items-center space-x-3"> 
-                            <div class="flex items-center">
-                                <img src="assets/images/avatars/avatar-1.jpg" alt="" class="w-6 h-6 rounded-full border-2 border-white">
-                                <img src="assets/images/avatars/avatar-4.jpg" alt="" class="w-6 h-6 rounded-full border-2 border-white -ml-2">
-                                <img src="assets/images/avatars/avatar-2.jpg" alt="" class="w-6 h-6 rounded-full border-2 border-white -ml-2">
-                            </div>
-                            <div>
-                                Liked <strong> Johnson</strong> and <strong> 209 Others </strong>
-                            </div>
+                            
                         </div>
                     </div>
 
@@ -64,7 +57,8 @@
                     <div class="flex flex-1 items-center space-x-2">
                         <img src="assets/images/avatars/avatar-2.jpg" class="rounded-full w-8 h-8">
                         <div class="flex-1 p-2">
-                            {{ $item->body }}
+                            <input type="hidden" id="parent_id" name="parent_id" value="{{ $item->id }}">
+                            {{ $item->body }}<svg style="display: inline; margin-left: 5px" id="balasan{{ $item->id }}" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m2 11l7-9v5c11.953 0 13.332 9.678 13 15c-.502-2.685-.735-7-13-7v5l-7-9Z"/></svg>
                         </div>
                     </div>
                     @endforeach
@@ -181,6 +175,7 @@
                                    <div class="flex space-x-4 lg:font-bold">
                                     <form class="flex items-center space-x-2">
                                         @csrf
+                                        <input type="hidden" name="user_name" id="user_name" value="{{ auth()->user()->name }}">
                                         <input type="hidden" name="user_id" id="user_id" value="{{ auth()->user()->id }}">
                                         <input type="hidden" name="post_id" id="post_id" value="{{ $post->id }}">
                                             <div class="p-2 rounded-full text-black">
@@ -208,14 +203,21 @@
                                     </a>
                                 </div>
                                 <div class="flex items-center space-x-3"> 
-                                    <div class="flex items-center">
-                                        <img src="assets/images/avatars/avatar-1.jpg" alt="" class="w-6 h-6 rounded-full border-2 border-white dark:border-gray-900">
-                                        <img src="assets/images/avatars/avatar-4.jpg" alt="" class="w-6 h-6 rounded-full border-2 border-white dark:border-gray-900 -ml-2">
-                                        <img src="assets/images/avatars/avatar-2.jpg" alt="" class="w-6 h-6 rounded-full border-2 border-white dark:border-gray-900 -ml-2">
-                                    </div>
                                     <div class="dark:text-gray-100" id="Liked{{ $post->id }}">
                                         
-                                            Liked <strong> </strong> and <strong> 209 Others </strong> 
+                                        @foreach ($post->likepertama() as $item)
+                                        Liked <strong>{{ $item->user_name }} </strong>
+                                            @if ($post->likes()->count('user_id') < 2)
+                                                
+                                                @else
+                                            and <strong>{{ $post->likes()->count('user_id') -1 }} Others </strong>
+                                            @endif
+                                            
+                                        @if ($item->user_name)
+                                            @break
+                                        @endif
+                                        @endforeach
+                                             
                                         
                                            
                                     </div>
@@ -424,17 +426,19 @@
         const sate = document.getElementById('sateSate');
         sate.addEventListener('click', function(e){
             if (e.target.className == "uil-thumbs-up") {
-                let user_id = e.target.parentElement.previousElementSibling.previousElementSibling.getAttribute('value');
+            let user_id = e.target.parentElement.previousElementSibling.previousElementSibling.getAttribute('value');
+            let user_name = e.target.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.getAttribute('value')
             let post_id = e.target.parentElement.previousElementSibling.getAttribute('value');
             let _token = $('input[name="_token"]').val();
             let url = '{{ route('like.add') }}';
             let hii = e.target.parentElement.parentElement.parentElement.parentElement.getAttribute('id');
-            console.log(hii);
+            console.log(user_name);
                         $.ajax({
                 url:url,
                 type:"POST",
                 data:{
                     user_id:user_id,
+                    user_name:user_name,
                     post_id:post_id,
                     _token:_token,
                 },
@@ -444,7 +448,7 @@
                 }
              },
              error:function(error){
-                console.log(error)
+                console.log(JSON.stringify(error));
                  }   
             });
             }else if(e.target.className == "uil-arrow-circle-right") {
@@ -476,5 +480,10 @@
             }
             
         });
+    const reply = document.getElementById('balasan')
+    reply.addEventListener('click', function(e){
+        let parent_id = e.target.previousElementSibling.getAttribute('value');
+        console.log(parent_id);
+    })
     </script>
     @endsection
