@@ -58,7 +58,7 @@
                         <img src="assets/images/avatars/avatar-2.jpg" class="rounded-full w-8 h-8">
                         <div class="flex-1 p-2">
                             <input type="hidden" id="parent_id" name="parent_id" value="{{ $item->id }}">
-                            {{ $item->body }}<svg style="display: inline; margin-left: 5px" id="balasan{{ $item->id }}" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m2 11l7-9v5c11.953 0 13.332 9.678 13 15c-.502-2.685-.735-7-13-7v5l-7-9Z"/></svg>
+                            {{ $item->body }} <i class="uil-arrow-down-left" id="replyCommentUser"></i>
                         </div>
                     </div>
                     @endforeach
@@ -85,6 +85,7 @@
 
     </div>
 </div>
+
                         <!-- post 1-->
                         <div class="bg-white shadow rounded-md dark:bg-gray-900 -mx-2 lg:mx-0">
     
@@ -422,7 +423,13 @@
                 console.log(error);
                  }   
             });
-    });
+        });
+        $(document).on("click", "#replyCommentUser", function(event){
+            let comment_id = event.target.previousElementSibling.getAttribute('value');
+            console.log(event.target);
+            const inputan = document.createElement('p');
+        })
+
         const sate = document.getElementById('sateSate');
         sate.addEventListener('click', function(e){
             if (e.target.className == "uil-thumbs-up") {
@@ -477,13 +484,8 @@
                 console.log(error)
                  }   
             });
-            }
+            } 
             
         });
-    const reply = document.getElementById('balasan')
-    reply.addEventListener('click', function(e){
-        let parent_id = e.target.previousElementSibling.getAttribute('value');
-        console.log(parent_id);
-    })
     </script>
     @endsection

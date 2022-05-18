@@ -35,7 +35,7 @@ class FollowController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, User $user)
+    public function store(User $user)
     {
         if (Auth::user()->hasFollow($user)) {
             Auth::user()->unfollow($user);

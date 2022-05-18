@@ -25,9 +25,9 @@
                     <div>
                         <div class="bg-gradient-to-tr from-yellow-600 to-pink-600 p-1 rounded-full m-0.5 mr-2  w-56 h-56 relative overflow-hidden uk-transition-toggle"> 
                             @if ($usere->profile)
-                            <img src="{{ asset('storage/'.$usere->profile) }}" class="bg-gray-200 border-4 border-white rounded-full w-full h-full dark:border-gray-900">
+                            <img src="{{ asset('/storage/'.$usere->profile) }}" class="bg-gray-200 border-4 border-white rounded-full w-full h-full dark:border-gray-900">
                             @else
-                                 <img src="{{ asset('assets/images/avatars/avatar-7.jpg') }}" class="bg-gray-200 border-4 border-white rounded-full w-full h-full dark:border-gray-900">
+                                 <img src="{{ asset('/assets/images/avatars/avatar-7.jpg') }}" class="bg-gray-200 border-4 border-white rounded-full w-full h-full dark:border-gray-900">
                             @endif 
                            
 
@@ -119,7 +119,7 @@
                             </div>
 
                             <div class="divide-gray-300 divide-transparent divide-x grid grid-cols-3 lg:text-left lg:text-lg mt-3 text-center w-full dark:text-gray-100">
-                                <div class="flex lg:flex-row flex-col"> {{ $count->count() }} <strong class="lg:pl-2">Posts</strong></div>
+                                <div class="flex lg:flex-row flex-col"> {{ $count2->count() }} <strong class="lg:pl-2">Posts</strong></div>
                                 <a href="#story-modal99" uk-toggle>
                                     <div class="lg:pl-4 flex lg:flex-row flex-col"> {{ $usere->followers()->count() }} <strong class="lg:pl-2">Followers</strong></div>
                                 </a>
@@ -143,7 +143,7 @@
                         </div>
                     </a>
                     <a href="#story-modal" uk-toggle>
-                        <img src="{{ asset('assets/images/post/img2.jpg') }}" alt="" class="w-full lg:h-60 h-40 rounded-md object-cover">
+                        <img src="{{ asset('/assets/images/post/img2.jpg') }}" alt="" class="w-full lg:h-60 h-40 rounded-md object-cover">
                     </a>
                 </div>
 
@@ -199,7 +199,7 @@
                         <div class="flex flex-1 items-center space-x-4">
                             <a href="#">
                                 <div class="bg-gradient-to-tr from-yellow-600 to-pink-600 p-0.5 rounded-full">
-                                    <img src="assets/images/avatars/avatar-2.jpg"
+                                    <img src="/assets/images/avatars/avatar-2.jpg"
                                         class="bg-gray-200 border border-white rounded-full w-8 h-8">
                                 </div>
                             </a>
@@ -228,9 +228,9 @@
                             <hr class="-mx-4 my-3">
                             <div class="flex items-center space-x-3"> 
                                 <div class="flex items-center">
-                                    <img src="assets/images/avatars/avatar-1.jpg" alt="" class="w-6 h-6 rounded-full border-2 border-white">
-                                    <img src="assets/images/avatars/avatar-4.jpg" alt="" class="w-6 h-6 rounded-full border-2 border-white -ml-2">
-                                    <img src="assets/images/avatars/avatar-2.jpg" alt="" class="w-6 h-6 rounded-full border-2 border-white -ml-2">
+                                    <img src="/assets/images/avatars/avatar-1.jpg" alt="" class="w-6 h-6 rounded-full border-2 border-white">
+                                    <img src="/assets/images/avatars/avatar-4.jpg" alt="" class="w-6 h-6 rounded-full border-2 border-white -ml-2">
+                                    <img src="/assets/images/avatars/avatar-2.jpg" alt="" class="w-6 h-6 rounded-full border-2 border-white -ml-2">
                                 </div>
                                 <div>
                                     Liked <strong> Johnson</strong> and <strong> 209 Others </strong>
@@ -240,14 +240,14 @@
 
                     <div class="-mt-1 space-y-1">
                         <div class="flex flex-1 items-center space-x-2">
-                            <img src="assets/images/avatars/avatar-2.jpg" class="rounded-full w-8 h-8">
+                            <img src="/assets/images/avatars/avatar-2.jpg" class="rounded-full w-8 h-8">
                             <div class="flex-1 p-2">
                                 consectetuer adipiscing elit, sed diam nonummy nibh euismod
                             </div>
                         </div>
 
                         <div class="flex flex-1 items-center space-x-2">
-                            <img src="assets/images/avatars/avatar-4.jpg" class="rounded-full w-8 h-8">
+                            <img src="/assets/images/avatars/avatar-4.jpg" class="rounded-full w-8 h-8">
                             <div class="flex-1 p-2">
                                 consectetuer adipiscing elit
                             </div>
@@ -277,7 +277,7 @@
         <button class="uk-modal-close-default lg:-mt-9 lg:-mr-9 -mt-5 -mr-5 shadow-lg bg-white rounded-full p-4 transition dark:bg-gray-600 dark:text-white" type="button" uk-close></button>
         <div class="bg-white dark:bg-gray-900 shadow-md rounded-md overflow-hidden">
 
-            <div class="bg-gray-50 dark:bg-gray-800 border-b border-gray-100 flex items-baseline justify-between py-4 px-6 dark:border-gray-800">
+            <div class="bg-gray-50 dark:bg-gray-800 border-b border-gray-100 flex items-baseline justify-between py-4 px-6 dark:boSrder-gray-800">
                 <h2 class="font-semibold text-lg">Following</h2>
             </div>
            
@@ -286,7 +286,7 @@
                    <div class="flex items-center justify-between py-3">
                     <div class="flex flex-1 items-center space-x-4">
                         <a href="profile.html">
-                            <img src="assets/images/avatars/avatar-2.jpg" class="bg-gray-200 rounded-full w-10 h-10">
+                            <img src="/assets/images/avatars/avatar-2.jpg" class="bg-gray-200 rounded-full w-10 h-10">
                         </a>
                         <div class="flex flex-col">
                             <span class="block capitalize font-semibold"> {{ $user->name }} </span>
@@ -319,7 +319,7 @@
                    <div class="flex items-center justify-between py-3">
                     <div class="flex flex-1 items-center space-x-4">
                         <a href="profile.html">
-                            <img src="assets/images/avatars/avatar-2.jpg" class="bg-gray-200 rounded-full w-10 h-10">
+                            <img src="/assets/images/avatars/avatar-2.jpg" class="bg-gray-200 rounded-full w-10 h-10">
                         </a>
                         <div class="flex flex-col">
                             <span class="block capitalize font-semibold"> {{ $user2->name }} </span>

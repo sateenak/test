@@ -34,8 +34,9 @@ Route::get('chat', function () {
 Route::resource('/post', PostController::class)->middleware('auth');
 Route::resource('/', PostController::class)->middleware('auth');
 Route::get('/feed', [PostController::class, 'index'])->middleware('auth');
+Route::get('/profile/{user}', [UserController::class, 'index'])->middleware('auth');
 Route::resource('/user', UserController::class)->middleware('auth');
-Route::post('/profile/follow/{user}', [FollowController::class, 'store'])->name('follow.store');
+Route::post('/profile/follow/{user:username}', [FollowController::class, 'store'])->name('follow.store');
 Route::get('/form-login', [LoginController::class, 'index'])->name('login')->middleware('guest');
 Route::post('/form-login', [LoginController::class, 'store']);
 Route::post('/logout', [LoginController::class, 'logout']);

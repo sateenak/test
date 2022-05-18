@@ -1,8 +1,8 @@
 <div class="sidebar">
     <div class="sidebar_header border-b border-gray-200 from-gray-100 to-gray-50 bg-gradient-to-t  uk-visible@s"> 
         <a href="#">
-            <img src={{ asset("assets/images/logo.png") }}>
-            <img src={{ asset("assets/images/logo-light.png") }} class="logo_inverse">
+            <img src={{ asset("/assets/images/logo.png") }}>
+            <img src={{ asset("/assets/images/logo-light.png") }} class="logo_inverse">
         </a>
         <!-- btn night mode -->
         <a href="#" id="night-mode" class="btn-night-mode" data-tippy-placement="left" title="Switch to dark mode"></a>
@@ -19,7 +19,7 @@
                 <img src={{ asset("storage/". auth()->user()->profile) }}
                 class="bg-gray-200 border-4 border-white rounded-full w-full h-full">
                 @else
-                    <img src={{ asset("assets/images/avatars/avatar-2.jpg") }}
+                    <img src={{ asset("/assets/images/avatars/avatar-2.jpg") }}
                     class="bg-gray-200 border-4 border-white rounded-full w-full h-full">
                 @endif
                 
@@ -96,7 +96,7 @@
             </li>
             <li>
                 @yield('profile')
-                <a href="/user/{{ auth()->user()->username }}"> 
+                <a href="/profile/{{ auth()->user()->username }}"> 
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                     </svg>

@@ -15,16 +15,16 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(User $user)
     {
 
         $data = Follow::where('following_user_id', auth()->User()->id)->count();
-        $postsaya = Post::latest()->get();
         return view('profile', [
             'title' => 'profile',
-            'posts' => Post::where('user_id', auth()->User()->id)->latest()->get(),
-            'user' => auth()->User()->id,
-            'count' => Post::where('user_id', auth()->User()->id)->get(),
+            'posts' => Post::where('user_id', $user->id)->latest()->get(),
+            'usere' => $user,
+            'count2' => Post::where('user_id', $user->id)->get(),
+            'count' => Post::where('user_id', auth()->user()->id)->get(),
             'followers' => $data,
         ]);
     }
@@ -54,16 +54,16 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show()
     {
-        $data = Follow::where('following_user_id', auth()->User()->id)->count();
-        return view('profile', [
-            'title' => 'profile',
-            'posts' => Post::where('user_id', $user->id)->latest()->get(),
-            'usere' => $user,
-            'count' => Post::where('user_id', $user->id)->get(),
-            'followers' => $data,
-        ]);
+        // $data = Follow::where('following_user_id', auth()->User()->id)->count();
+        // return view('profile', [
+        //     'title' => 'profile',
+        //     'posts' => Post::where('user_id', $user->id)->latest()->get(),
+        //     'usere' => $user,
+        //     'count' => Post::where('user_id', $user->id)->get(),
+        //     'followers' => $data,
+        // ]);
     }
 
     /**
@@ -72,7 +72,7 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit(Request $request, User $user)
     {
         $data = Follow::where('following_user_id', auth()->User()->id)->count();
         return view('editprofile', [

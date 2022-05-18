@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- Favicon -->
-    <link href="assets/images/favicon.png" rel="icon" type="image/png">
+    <link href="/assets/images/favicon.png" rel="icon" type="image/png">
     
     <!-- Basic Page Needs
     ================================================== -->
@@ -19,13 +19,13 @@
 
     <!-- icons
     ================================================== -->
-    <link rel="stylesheet" href="assets/css/icons.css">
+    <link rel="stylesheet" href="/assets/css/icons.css">
 
     <!-- CSS 
     ================================================== -->
-    <link rel="stylesheet" href="{{ asset('assets/css/uikit.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/tailwind.css') }}">
+    <link rel="stylesheet" href="{{ asset('/assets/css/uikit.css') }}">
+    <link rel="stylesheet" href="{{ asset('/assets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('/assets/css/tailwind.css') }}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
     @yield('style')
@@ -57,7 +57,7 @@
                                <div class="flex items-center justify-between py-3">
                                 <div class="flex flex-1 items-center space-x-4">
                                     <a href="profile.html">
-                                        <img src="assets/images/avatars/avatar-2.jpg" class="bg-gray-200 rounded-full w-10 h-10">
+                                        <img src="/assets/images/avatars/avatar-2.jpg" class="bg-gray-200 rounded-full w-10 h-10">
                                     </a>
                                     <div class="flex flex-col">
                                         <span class="block capitalize font-semibold"> {{ $user->name }} </span>
@@ -90,7 +90,7 @@
                                <div class="flex items-center justify-between py-3">
                                 <div class="flex flex-1 items-center space-x-4">
                                     <a href="profile.html">
-                                        <img src="assets/images/avatars/avatar-2.jpg" class="bg-gray-200 rounded-full w-10 h-10">
+                                        <img src="/assets/images/avatars/avatar-2.jpg" class="bg-gray-200 rounded-full w-10 h-10">
                                     </a>
                                     <div class="flex flex-col">
                                         <span class="block capitalize font-semibold"> {{ $user2->name }} </span>
@@ -147,11 +147,11 @@
             </script>
          <!-- Scripts
             ================================================== -->
-            <script src="{{ asset('assets/js/tippy.all.min.js') }}"></script>  
+            <script src="{{ asset('/assets/js/tippy.all.min.js') }}"></script>  
             {{-- <script src="{{ asset('assets/js/jquery-3.3.1.min.js') }}"></script> --}}
-            <script src="{{ asset('assets/js/uikit.js') }}"></script>
-            <script src="{{ asset('assets/js/simplebar.js') }}"></script>
-            <script src="{{ asset('assets/js/custom.js') }}"></script>
+            <script src="{{ asset('/assets/js/uikit.js') }}"></script>
+            <script src="{{ asset('/assets/js/simplebar.js') }}"></script>
+            <script src="{{ asset('/assets/js/custom.js') }}"></script>
             {{-- <script src="{{ asset('assets/unpkg.com/ionicons@5.2.3/dist/ionicons.js') }}"></script> --}}
         </body>
         </html>
