@@ -79,10 +79,17 @@
                                     <input type="hidden" name="post_id" value="{{ $post->id }}">
                                 </div>
                                 {{ $item->body }} <span class="uil-arrow-down-left" id="replyCommentUser"></span>
-                            
                             </form>
                         </div>
                     </div>
+                    @foreach ($item->replies as $reply)
+                                <div class="flex flex-1 items-center space-x-2" style="margin-left: 30px">
+                                    <img src="assets/images/avatars/avatar-2.jpg" class="rounded-full" style="width: 20px; height: 20px">
+                                    <div class="flex-1 p-2">
+                                        {{ $reply->body }}
+                                    </div>
+                                </div>
+                                @endforeach
                     @endforeach
                 </div>
 
@@ -425,6 +432,8 @@
             const post_id = event.target.parentElement.nextElementSibling.nextElementSibling.value;
             const user_id = event.target.parentElement.nextElementSibling.value;
             const comment_parent = event.target.parentElement.previousElementSibling.value;
+            const headee = event.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.getAttribute('id');
+            console.log(headee);
             let _token = $('input[name="_token"]').val();
             let url = '{{ route('comment.add') }}';
             $.ajax({
