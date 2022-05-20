@@ -57,8 +57,30 @@
                     <div class="flex flex-1 items-center space-x-2">
                         <img src="assets/images/avatars/avatar-2.jpg" class="rounded-full w-8 h-8">
                         <div class="flex-1 p-2">
-                            <input type="hidden" id="parent_id" name="parent_id" value="{{ $item->id }}">
-                            {{ $item->body }} <i class="uil-arrow-down-left" id="replyCommentUser"></i>
+                            <form action="">
+                                <style>
+                                    .sini-sini{
+                                        display: flex;
+                                    }
+                                    .tidak-ada{
+                                        display: none;
+                                    }
+                                    #arrowKirim:hover{
+                                        cursor: pointer;
+                                    }
+                                </style>
+                                <div class="sini-sini">
+                                    <input type="hidden" name="comment_reply" id="comment_reply" placeholder="Add your Comment.." class="comment_reply shadow-none" style="background-color: rgba(152, 137, 137, 0.5); color: white; display: inline">
+                                    <input type="hidden" id="parent_id" name="parent_id" value="{{ $item->id }}">
+                                    <div class="tidak-ada selalu-ada" id="reply-comment-class">
+                                        <span class="uil-arrow-circle-right" style="z-index: 77; font-size: 30px; text-align: center"></span>
+                                    </div>
+                                    <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
+                                    <input type="hidden" name="post_id" value="{{ $post->id }}">
+                                </div>
+                                {{ $item->body }} <span class="uil-arrow-down-left" id="replyCommentUser"></span>
+                            
+                            </form>
                         </div>
                     </div>
                     @endforeach
@@ -398,6 +420,36 @@
         </div>
     </div>
     <script>
+        $(document).on("click", "#reply-comment-class", function(event){
+            const comment_reply = event.target.parentElement.previousElementSibling.previousElementSibling.value;
+            const post_id = event.target.parentElement.nextElementSibling.nextElementSibling.value;
+            const user_id = event.target.parentElement.nextElementSibling.value;
+            const comment_parent = event.target.parentElement.previousElementSibling.value;
+            let _token = $('input[name="_token"]').val();
+            let url = '{{ route('comment.add') }}';
+            $.ajax({
+                url:url,
+                type:"POST",
+                data:{
+                    user_id:user_id,
+                    post_id:post_id,
+                    comment_reply:comment_reply,
+                    comment_parent:comment_parent,
+                    _token:_token,
+                },
+             success:function(response){
+                if (response) {
+                    // $('#'+loadID).load('/feed '+'#'+loadID);
+                    console.log(response);
+                }
+             },
+             error:function(error){
+                console.log(error);
+                 }   
+            });
+
+
+        });
         $(document).on("click", "#arrowKirim", function(event){
             const post_id = event.target.parentElement.previousElementSibling.previousElementSibling.value;
             const user_id = event.target.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.value;
@@ -426,9 +478,22 @@
         });
         $(document).on("click", "#replyCommentUser", function(event){
             let comment_id = event.target.previousElementSibling.getAttribute('value');
-            console.log(event.target);
-            const inputan = document.createElement('p');
-        })
+            let comment_head = document.querySelectorAll('.comment_reply');
+            let panah_head = document.querySelectorAll('.selalu-ada');
+            let input_reply = event.target.previousElementSibling.children[0];
+            let panah = event.target.previousElementSibling.children[2];
+            console.log(panah);
+            panah_head.forEach(function (panahan){
+                panahan.classList.add("tidak-ada");
+            })
+            comment_head.forEach(function (reply) {
+            reply.className = 'comment_reply bg-transparent max-h-8 shadow-none';
+            reply.setAttribute("type", "hidden");
+        });
+        input_reply.setAttribute("type", "text");
+        panah.classList.remove("tidak-ada");
+
+        });
 
         const sate = document.getElementById('sateSate');
         sate.addEventListener('click', function(e){
@@ -439,7 +504,6 @@
             let _token = $('input[name="_token"]').val();
             let url = '{{ route('like.add') }}';
             let hii = e.target.parentElement.parentElement.parentElement.parentElement.getAttribute('id');
-            console.log(user_name);
                         $.ajax({
                 url:url,
                 type:"POST",

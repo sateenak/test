@@ -36,12 +36,22 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        $comment = new Comment;
-        $comment->body = $request->comment_body;
-        $comment->user()->associate($request->user());
-        $post = Post::find($request->post_id);
-        $post->comments()->save($comment);
-        return response()->json($post);
+        if ($request->comment_parent) {
+            $comment2 = new Comment;
+            $comment2->body = $request->comment_reply;
+            $comment2->user()->associate($request->user());
+            $comment2->parent_id = $request->comment_parent;
+            $post = Post::find($request->post_id);
+            $post->comments()->save($comment2);
+            return response()->json($post);
+        } else {
+            $comment = new Comment;
+            $comment->body = $request->comment_body;
+            $comment->user()->associate($request->user());
+            $post = Post::find($request->post_id);
+            $post->comments()->save($comment);
+            return response()->json($post);
+        }
     }
 
     /**
