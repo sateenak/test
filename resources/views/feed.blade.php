@@ -78,7 +78,8 @@
                                     <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
                                     <input type="hidden" name="post_id" value="{{ $post->id }}">
                                 </div>
-                                {{ $item->body }} <span class="uil-arrow-down-left" id="replyCommentUser"></span>
+                                <strong>{{ $item->user->username }} </strong>{{ $item->body }}
+                                <span class="fas fa-reply" id="replyCommentUser"></span>
                             </form>
                         </div>
                     </div>
@@ -86,7 +87,7 @@
                                 <div class="flex flex-1 items-center space-x-2" style="margin-left: 30px">
                                     <img src="assets/images/avatars/avatar-2.jpg" class="rounded-full" style="width: 20px; height: 20px">
                                     <div class="flex-1 p-2">
-                                        {{ $reply->body }}
+                                       <strong>{{ $reply->user->username }} </strong>{{ $reply->body }}
                                     </div>
                                 </div>
                                 @endforeach
@@ -188,11 +189,15 @@
                             </div>
     
                             <div uk-lightbox>
-                                <a href={{ asset("storage/".$post->image) }}>  
+                                @foreach (unserialize(base64_decode($post->image)) as $imm)
+                                    <a href={{ asset("storage/".$imm) }}>
                                     {{-- kalau nanti butuh --}}
                                     {{-- style="width: 500px; height: 500px; object-fit: cover" --}}
-                                    <img  src={{ asset("storage/".$post->image) }} alt="">
+                                    <img  src={{ asset("storage/".$imm) }} alt="">
+                                
                                 </a>
+                                @endforeach
+                                    
                                 <div class="story-content p-4" data-simplebar>
 
                                     <p>{{ $post->content }}</p>
@@ -432,7 +437,7 @@
             const post_id = event.target.parentElement.nextElementSibling.nextElementSibling.value;
             const user_id = event.target.parentElement.nextElementSibling.value;
             const comment_parent = event.target.parentElement.previousElementSibling.value;
-            const headee = event.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.getAttribute('id');
+            const headee = event.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.getAttribute('id');
             console.log(headee);
             let _token = $('input[name="_token"]').val();
             let url = '{{ route('comment.add') }}';
@@ -448,8 +453,7 @@
                 },
              success:function(response){
                 if (response) {
-                    // $('#'+loadID).load('/feed '+'#'+loadID);
-                    console.log(response);
+                    $('#'+headee).load('/feed '+'#'+headee);
                 }
              },
              error:function(error){
@@ -466,6 +470,7 @@
             let url = '{{ route('comment.add') }}';
             let _token = $('input[name="_token"]').val();
             let loadID = event.target.parentElement.parentElement.parentElement.parentElement.parentElement.getAttribute('id');
+            console.log(loadID);
             $.ajax({
                 url:url,
                 type:"POST",
@@ -486,11 +491,11 @@
             });
         });
         $(document).on("click", "#replyCommentUser", function(event){
-            let comment_id = event.target.previousElementSibling.getAttribute('value');
+            let comment_id = event.target.previousElementSibling.previousElementSibling.getAttribute('value');
             let comment_head = document.querySelectorAll('.comment_reply');
             let panah_head = document.querySelectorAll('.selalu-ada');
-            let input_reply = event.target.previousElementSibling.children[0];
-            let panah = event.target.previousElementSibling.children[2];
+            let input_reply = event.target.previousElementSibling.previousElementSibling.children[0];
+            let panah = event.target.previousElementSibling.previousElementSibling.children[2];
             console.log(panah);
             panah_head.forEach(function (panahan){
                 panahan.classList.add("tidak-ada");

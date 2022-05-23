@@ -64,16 +64,33 @@ class PostController extends Controller
     {
         $validatedData = $request->validate([
             'content' => 'required|max:500',
-            'image' => 'file|max:6000'
+            'image' => 'required',
+            'image.*' => 'file|max:6000'
         ]);
-        if ($request->file('image')) {
-            $validatedData['image'] = $request->file('image')->store('post-images');
+        if ($request->hasfile('image')) {
+            foreach ($request->file('image') as $imageSolo) {
+                // $name = auth()->user()->id . time() . rand(1, 1000) . '.' . $imageSolo->extension();
+                // $imageSolo->move(public_path('storage/imgpost'), $name);
+                $name = $imageSolo->store('imageini');
+                $data[] = $name;
+            }
+            Post::create([
+                'user_id' => auth()->user()->id,
+                'content' => $request->content,
+                'image' => base64_encode(serialize($data))
+            ]);
         }
+        // $posting = new Post();
+        // $posting->user_id = auth()->user()->id;
+        // $posting->content = $request->content;
+        // $posting->image = json_encode($data);
+        // $posting->save();
+        // $validatedData['image'] = $request->file('image')->store('post-images');
 
         // $validatedData['image'] = $request->file('image')->store('post-images');
-        $validatedData['user_id'] = auth()->user()->id;
-        Post::create($validatedData);
-        return redirect('/');
+        // $validatedData['user_id'] = auth()->user()->id;
+        // Post::create($validatedData);
+        return redirect(dd($name));
     }
 
     /**
