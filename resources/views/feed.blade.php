@@ -188,16 +188,48 @@
                               </div>
                             </div>
     
-                            <div uk-lightbox>
+                            {{-- <div uk-lightbox>
                                 @foreach (unserialize(base64_decode($post->image)) as $imm)
-                                    <a href={{ asset("storage/".$imm) }}>
-                                    {{-- kalau nanti butuh --}}
-                                    {{-- style="width: 500px; height: 500px; object-fit: cover" --}}
-                                    <img  src={{ asset("storage/".$imm) }} alt="">
+                                    <a href={{ asset("/storage/".$imm) }}>
+                                    style="width: 500px; height: 500px; object-fit: cover"
+                                    <img  src={{ asset("/storage/".$imm) }} alt="">
                                 
                                 </a>
                                 @endforeach
                                     
+                                <div class="story-content p-4" data-simplebar>
+
+                                    <p>{{ $post->content }}</p>
+                                </div>
+                            </div> --}}
+                            <div uk-lightbox>
+                                <div class="grid grid-cols-2 gap-2 p-2">
+                                    @foreach (unserialize(base64_decode($post->image)) as $imm)
+                                    @if ($loop->first)
+                                         <a href="{{ asset('/storage/'.$imm) }}" class="col-span-2">  
+                                        <img src="{{ asset('/storage/'.$imm) }}" alt="" class="rounded-md w-full lg:h-76 object-cover">
+                                    </a>
+                                    @elseif($loop->index == 1)
+                                        <a href="{{ asset('/storage/'.$imm) }}">  
+                                        <img src="{{ asset('/storage/'.$imm) }}" alt="" class="rounded-md w-full h-full">
+                                    </a>
+                                    @elseif($loop->index == 2)
+                                    <a href="{{ asset('/storage/'.$imm) }}" class="relative">  
+                                        <img src="{{ asset('/storage/'.$imm) }}" alt="" class="rounded-md w-full h-full">
+                                        <div class="absolute bg-gray-900 bg-opacity-30 flex justify-center items-center text-white rounded-md inset-0 text-2xl"> + {{ sizeOf(unserialize(base64_decode($post->image)))-2 }} more </div>
+                                    </a>
+                                    @else
+                                    <a href="{{ asset('/storage/'.$imm) }}" class="hidden">  
+                                        <img src="{{ asset('/storage/'.$imm) }}" alt="" class="rounded-md w-full h-full">
+                                        <div class="absolute bg-gray-900 bg-opacity-30 flex justify-center items-center text-white rounded-md inset-0 text-2xl"> + 15 more </div>
+                                    </a>
+                                    @endif
+                                   
+                                    @endforeach
+                                    
+                                    
+
+                                </div>
                                 <div class="story-content p-4" data-simplebar>
 
                                     <p>{{ $post->content }}</p>

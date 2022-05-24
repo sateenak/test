@@ -90,7 +90,7 @@ class PostController extends Controller
         // $validatedData['image'] = $request->file('image')->store('post-images');
         // $validatedData['user_id'] = auth()->user()->id;
         // Post::create($validatedData);
-        return redirect(dd($name));
+        return redirect('/');
     }
 
     /**
