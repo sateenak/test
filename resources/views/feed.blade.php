@@ -22,7 +22,39 @@
         <button class="uk-modal-close-default lg:-mt-9 lg:-mr-9 -mt-5 -mr-5 shadow-lg bg-white rounded-full p-4 transition dark:bg-gray-600 dark:text-white" type="button" uk-close></button>
 
             <div class="story-modal-media">
-                <img src="{{ asset('/storage/'.$post->image) }}" alt=""  class="inset-0 h-full w-full object-cover">
+                <div uk-lightbox>
+                    <div class="grid grid-cols-2">
+                @foreach (unserialize(base64_decode($post->image)) as $imm)
+                @if (strpos($imm, ".mp4"))
+                   @if ($loop->index==0)
+                   <a href="{{ asset('/storage/'.$imm) }}" class="col-span-2">  
+                    <video class="rounded-md w-full lg:h-76 object-cover" controls>
+                        <source src="{{ asset('/storage/'.$imm) }}" type="video/mp4">
+                    </video>
+                </a>
+                   @else
+                   <a href="{{ asset('/storage/'.$imm) }}" class="col-span-2 hidden">  
+                    <video class="rounded-md w-full lg:h-76 object-cover" controls>
+                        <source src="{{ asset('/storage/'.$imm) }}" type="video/mp4">
+                    </video>
+                </a>   
+                   @endif 
+                @else
+                    @if ($loop->index==0)
+                        <a href="{{ asset('/storage/'.$imm) }}" class="col-span-2">
+                            <img src="{{ asset('/storage/'.$imm) }}" alt=""  class="inset-0 h-full w-full object-cover" style="height: 600px">
+                        </a>
+                    @else
+                        <a href="{{ asset('/storage/'.$imm) }}" class="col-span-2">
+                            <img src="{{ asset('/storage/'.$imm) }}" alt=""  class="inset-0 h-full w-full object-cover hidden" style="height: 600px">
+                        </a>
+                    @endif 
+                @endif
+               
+                
+                @endforeach
+                    </div>
+                </div>
             </div>
             <div class="flex-1 bg-white dark:bg-gray-900 dark:text-gray-100" id="commentLoad{{ $post->id }}">
             
@@ -205,24 +237,55 @@
                             <div uk-lightbox>
                                 <div class="grid grid-cols-2 gap-2 p-2">
                                     @foreach (unserialize(base64_decode($post->image)) as $imm)
-                                    @if ($loop->first)
-                                         <a href="{{ asset('/storage/'.$imm) }}" class="col-span-2">  
-                                        <img src="{{ asset('/storage/'.$imm) }}" alt="" class="rounded-md w-full lg:h-76 object-cover">
-                                    </a>
-                                    @elseif($loop->index == 1)
+                                    
+                                    @if (strpos($imm, ".mp4"))
+                                        @if ($loop->first)
+                                            <a href="{{ asset('/storage/'.$imm) }}" class="col-span-2">  
+                                                <video class="rounded-md w-full lg:h-76 object-cover" controls>
+                                                    <source src="{{ asset('/storage/'.$imm) }}" type="video/mp4">
+                                                </video>
+                                            </a>
+                                        @elseif($loop->index==1)
+                                            <a href="{{ asset('/storage/'.$imm) }}">  
+                                                <video controls class="rounded-md w-full h-full">
+                                                    <source src="{{ asset('/storage/'.$imm) }}" type="video/mp4">
+                                                </video>
+                                            </a>
+                                        @elseif($loop->index==2)
                                         <a href="{{ asset('/storage/'.$imm) }}">  
-                                        <img src="{{ asset('/storage/'.$imm) }}" alt="" class="rounded-md w-full h-full">
-                                    </a>
-                                    @elseif($loop->index == 2)
-                                    <a href="{{ asset('/storage/'.$imm) }}" class="relative">  
-                                        <img src="{{ asset('/storage/'.$imm) }}" alt="" class="rounded-md w-full h-full">
-                                        <div class="absolute bg-gray-900 bg-opacity-30 flex justify-center items-center text-white rounded-md inset-0 text-2xl"> + {{ sizeOf(unserialize(base64_decode($post->image)))-2 }} more </div>
-                                    </a>
+                                            <video controls class="rounded-md w-full h-full">
+                                                <source src="{{ asset('/storage/'.$imm) }}" type="video/mp4">
+                                            </video>
+                                        </a>
+                                        @else
+                                        <a href="{{ asset('/storage/'.$imm) }}" class="col-span-2 hidden">  
+                                            <video controls class="rounded-md w-full h-full">
+                                                <source src="{{ asset('/storage/'.$imm) }}" type="video/mp4">
+                                            </video>
+                                            <div class="absolute bg-gray-900 bg-opacity-30 flex justify-center items-center text-white rounded-md inset-0 text-2xl"> + {{ sizeOf(unserialize(base64_decode($post->image)))-2 }} more </div>
+                                        </a>
+                                        @endif
+
                                     @else
-                                    <a href="{{ asset('/storage/'.$imm) }}" class="hidden">  
-                                        <img src="{{ asset('/storage/'.$imm) }}" alt="" class="rounded-md w-full h-full">
-                                        <div class="absolute bg-gray-900 bg-opacity-30 flex justify-center items-center text-white rounded-md inset-0 text-2xl"> + 15 more </div>
-                                    </a>
+                                        @if ($loop->first)
+                                            <a href="{{ asset('/storage/'.$imm) }}" class="col-span-2">  
+                                            <img src="{{ asset('/storage/'.$imm) }}" alt="" class="rounded-md w-full lg:h-76 object-cover" style="height: 400px">
+                                            </a>
+                                        @elseif($loop->index == 1)
+                                            <a href="{{ asset('/storage/'.$imm) }}">  
+                                            <img src="{{ asset('/storage/'.$imm) }}" alt="" class="rounded-md w-full h-full">
+                                            </a>
+                                        @elseif($loop->index == 2)
+                                            <a href="{{ asset('/storage/'.$imm) }}" class="relative">  
+                                                <img src="{{ asset('/storage/'.$imm) }}" alt="" class="rounded-md w-full h-full">
+                                                <div class="absolute bg-gray-900 bg-opacity-30 flex justify-center items-center text-white rounded-md inset-0 text-2xl"> + {{ sizeOf(unserialize(base64_decode($post->image)))-2 }} more </div>
+                                            </a>
+                                        @else
+                                        <a href="{{ asset('/storage/'.$imm) }}" class="hidden">  
+                                            <img src="{{ asset('/storage/'.$imm) }}" alt="" class="rounded-md w-full h-full">
+                                            <div class="absolute bg-gray-900 bg-opacity-30 flex justify-center items-center text-white rounded-md inset-0 text-2xl"> + 15 more </div>
+                                        </a>
+                                        @endif
                                     @endif
                                    
                                     @endforeach
@@ -230,9 +293,20 @@
                                     
 
                                 </div>
-                                <div class="story-content p-4" data-simplebar>
-
-                                    <p>{{ $post->content }}</p>
+                                <div class="story-content p-4" data-simplebar id="readmoreHeader{{ $post->id }}">
+                                    <style>
+                                        .cursoruntukPoint:hover{
+                                            cursor: pointer;
+                                        }
+                                        #moreeee{
+                                            display: none;
+                                        }
+                                    </style>
+                                    <p>{{ substr($post->content, 0, 25) }}
+                                        <span id="dots">...</span>
+                                        <span id="moreeee">{{ substr($post->content, 25, null) }}</span>
+                                    </p>
+                                    <button id="myBtn" class="moreeee">Read more</button>
                                 </div>
                             </div>
                             
@@ -594,6 +668,19 @@
                 console.log(error)
                  }   
             });
+            }else if(e.target.className == "moreeee"){
+                let dots = e.target.previousElementSibling.children[0];
+                let moreText = e.target.previousElementSibling.children[1];
+                let btnText = e.target;
+                if (dots.style.display === "none") {
+                    dots.style.display = "inline";
+                    btnText.innerHTML = "Read more"; 
+                    moreText.style.display = "none";
+                } else {
+                    dots.style.display = "none";
+                    btnText.innerHTML = "Read less"; 
+                    moreText.style.display = "inline";
+                }
             } 
             
         });

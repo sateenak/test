@@ -155,7 +155,9 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         if ($post->image) {
-            Storage::delete($post->image);
+            foreach (unserialize(base64_decode($post->image)) as $imm) {
+                Storage::delete($imm);
+            }
         }
         $post->delete();
         return redirect('/feed');
