@@ -107,7 +107,7 @@ class UserController extends Controller
             $validatedData['profile'] = $request->file('profile')->store('profile-images');
         }
         User::where('id', $user->id)->update($validatedData);
-        return redirect('/user/' . $user->id);
+        return redirect('/profile/' . $user->username);
     }
 
     /**

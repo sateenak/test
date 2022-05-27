@@ -13,6 +13,7 @@ class Post extends Model
         'image',
         'user_id',
     ];
+    protected $with = ['user', 'comments'];
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');

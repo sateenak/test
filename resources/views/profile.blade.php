@@ -157,8 +157,10 @@
 
                 <div class="my-6 grid lg:grid-cols-4 grid-cols-2 gap-1.5 hover:text-yellow-700 uk-link-reset">
                    @foreach ($posts as $post)
+                   @foreach (unserialize(base64_decode($post->image)) as $it)
+                   @if ($loop->index == 0)
                        <div class="bg-red-500 max-w-full lg:h-64 h-40 rounded-md relative overflow-hidden uk-transition-toggle" tabindex="0"> 
-                            <img src="{{ asset('/storage/'.$post->image) }}" class="w-full h-full absolute object-cover inset-0">
+                            <img src="{{ asset('/storage/'.$it) }}" class="w-full h-full absolute object-cover inset-0">
 
                             <div class="absolute bg-black bg-opacity-40 bottom-0 flex h-full items-center justify-center space-x-5 text-lg text-white uk-transition-scale-up w-full">   
                                 <a href="#story-modal{{ $post->id }}a" uk-toggle class="flex items-center"> <ion-icon name="heart" class="mr-1"></ion-icon> 150 </a>
@@ -167,6 +169,12 @@
                             </div>
 
                         </div>
+                   @else
+                       
+                   @endif
+                       
+                   @endforeach
+                       
                    @endforeach
                         
                 </div>
@@ -185,92 +193,136 @@
 
    <!-- Story modal -->
    @foreach ($posts as $post)
-          <div id="story-modal{{ $post->id }}a" class="uk-modal-container" uk-modal>
-        <div class="uk-modal-dialog story-modal">
-            <button class="uk-modal-close-default lg:-mt-9 lg:-mr-9 -mt-5 -mr-5 shadow-lg bg-white rounded-full p-4 transition dark:bg-gray-600 dark:text-white" type="button" uk-close></button>
+   <div id="story-modal{{ $post->id }}a" class="uk-modal-container" uk-modal>
+    <div class="uk-modal-dialog story-modal">
+        <button class="uk-modal-close-default lg:-mt-9 lg:-mr-9 -mt-5 -mr-5 shadow-lg bg-white rounded-full p-4 transition dark:bg-gray-600 dark:text-white" type="button" uk-close></button>
 
-                <div class="story-modal-media">
-                    <img src="{{ asset('/storage/'.$post->image) }}" alt=""  class="inset-0 h-full w-full object-cover">
-                </div>
-                <div class="flex-1 bg-white dark:bg-gray-900 dark:text-gray-100">
-                
-                    <!-- post header-->
-                    <div class="border-b flex items-center justify-between px-5 py-3 dark:border-gray-600">
-                        <div class="flex flex-1 items-center space-x-4">
-                            <a href="#">
-                                <div class="bg-gradient-to-tr from-yellow-600 to-pink-600 p-0.5 rounded-full">
-                                    <img src="/assets/images/avatars/avatar-2.jpg"
-                                        class="bg-gray-200 border border-white rounded-full w-8 h-8">
-                                </div>
-                            </a>
-                            <span class="block text-lg font-semibold"> {{ $post->user->name }} </span>
-                        </div>
-                        <a href="#"> 
-                            <i  class="icon-feather-more-horizontal text-2xl rounded-full p-2 transition -mr-1"></i>
+            <div class="story-modal-media">
+                <div uk-lightbox>
+                    <div class="grid grid-cols-2">
+                @foreach (unserialize(base64_decode($post->image)) as $imm)
+                @if (strpos($imm, ".mp4"))
+                   @if ($loop->index==0)
+                   <a href="{{ asset('/storage/'.$imm) }}" class="col-span-2">  
+                    <video class="rounded-md w-full lg:h-76 object-cover" controls>
+                        <source src="{{ asset('/storage/'.$imm) }}" type="video/mp4">
+                    </video>
+                </a>
+                   @else
+                   <a href="{{ asset('/storage/'.$imm) }}" class="col-span-2 hidden">  
+                    <video class="rounded-md w-full lg:h-76 object-cover" controls>
+                        <source src="{{ asset('/storage/'.$imm) }}" type="video/mp4">
+                    </video>
+                </a>   
+                   @endif 
+                @else
+                    @if ($loop->index==0)
+                        <a href="{{ asset('/storage/'.$imm) }}" class="col-span-2">
+                            <img src="{{ asset('/storage/'.$imm) }}" alt=""  class="inset-0 h-full w-full object-cover" style="height: 600px">
                         </a>
+                    @else
+                        <a href="{{ asset('/storage/'.$imm) }}" class="col-span-2">
+                            <img src="{{ asset('/storage/'.$imm) }}" alt=""  class="inset-0 h-full w-full object-cover hidden" style="height: 600px">
+                        </a>
+                    @endif 
+                @endif
+               
+                
+                @endforeach
                     </div>
-                    <div class="story-content p-4" data-simplebar>
-
-                        <p> {{ $post->content }} </p>
-                        
-                        <div class="py-4 ">
-                            <div class="flex justify-around">
-                                <a href="#" class="flex items-center space-x-3">
-                                    <div class="flex font-bold items-baseline"> <i class="uil-heart mr-1"> </i> Like</div>
-                                </a>
-                                <a href="#" class="flex items-center space-x-3">
-                                    <div class="flex font-bold items-baseline"> <i class="uil-heart mr-1"> </i> Comment</div>
-                                </a>
-                                <a href="#" class="flex items-center space-x-3">
-                                    <div class="flex font-bold items-baseline"> <i class="uil-heart mr-1"> </i> Share</div>
-                                </a>
+                </div>
+            </div>
+            <div class="flex-1 bg-white dark:bg-gray-900 dark:text-gray-100" id="commentLoad{{ $post->id }}">
+            
+                <!-- post header-->
+                <div class="border-b flex items-center justify-between px-5 py-3 dark:border-gray-600">
+                    <div class="flex flex-1 items-center space-x-4">
+                        <a href="#">
+                            <div class="bg-gradient-to-tr from-yellow-600 to-pink-600 p-0.5 rounded-full">
+                                <img src="assets/images/avatars/avatar-2.jpg"
+                                    class="bg-gray-200 border border-white rounded-full w-8 h-8">
                             </div>
-                            <hr class="-mx-4 my-3">
-                            <div class="flex items-center space-x-3"> 
-                                <div class="flex items-center">
-                                    <img src="/assets/images/avatars/avatar-1.jpg" alt="" class="w-6 h-6 rounded-full border-2 border-white">
-                                    <img src="/assets/images/avatars/avatar-4.jpg" alt="" class="w-6 h-6 rounded-full border-2 border-white -ml-2">
-                                    <img src="/assets/images/avatars/avatar-2.jpg" alt="" class="w-6 h-6 rounded-full border-2 border-white -ml-2">
+                        </a>
+                        <span class="block text-lg font-semibold"> {{ $post->user->name }} </span>
+                    </div>
+                    <a href="#"> 
+                        <i  class="icon-feather-more-horizontal text-2xl rounded-full p-2 transition -mr-1"></i>
+                    </a>
+                </div>
+                <div class="story-content p-4" data-simplebar id="kotakUntukComent{{ $post->id }}">
+
+                    <p> {{ $post->content }} </p>
+                    
+                    <div class="py-4 ">
+                        <hr class="-mx-4 my-3">
+                        <div class="flex items-center space-x-3"> 
+                            
+                        </div>
+                    </div>
+
+                <div class="-mt-1 space-y-1">
+                    @foreach ($post->comments as $item)
+                    <div class="flex flex-1 items-center space-x-2">
+                        <img src="assets/images/avatars/avatar-2.jpg" class="rounded-full w-8 h-8">
+                        <div class="flex-1 p-2">
+                            <form action="">
+                                <style>
+                                    .sini-sini{
+                                        display: flex;
+                                    }
+                                    .tidak-ada{
+                                        display: none;
+                                    }
+                                    #arrowKirim:hover{
+                                        cursor: pointer;
+                                    }
+                                </style>
+                                <div class="sini-sini">
+                                    <input type="hidden" name="comment_reply" id="comment_reply" placeholder="Add your Comment.." class="comment_reply shadow-none" style="background-color: rgba(152, 137, 137, 0.5); color: white; display: inline">
+                                    <input type="hidden" id="parent_id" name="parent_id" value="{{ $item->id }}">
+                                    <div class="tidak-ada selalu-ada" id="reply-comment-class">
+                                        <span class="uil-arrow-circle-right" style="z-index: 77; font-size: 30px; text-align: center"></span>
+                                    </div>
+                                    <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
+                                    <input type="hidden" name="post_id" value="{{ $post->id }}">
                                 </div>
-                                <div>
-                                    Liked <strong> Johnson</strong> and <strong> 209 Others </strong>
+                                <strong>{{ $item->user->username }} </strong>{{ $item->body }}
+                                <span class="fas fa-reply" id="replyCommentUser"></span>
+                            </form>
+                        </div>
+                    </div>
+                    @foreach ($item->replies as $reply)
+                                <div class="flex flex-1 items-center space-x-2" style="margin-left: 30px">
+                                    <img src="assets/images/avatars/avatar-2.jpg" class="rounded-full" style="width: 20px; height: 20px">
+                                    <div class="flex-1 p-2">
+                                       <strong>{{ $reply->user->username }} </strong>{{ $reply->body }}
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-
-                    <div class="-mt-1 space-y-1">
-                        <div class="flex flex-1 items-center space-x-2">
-                            <img src="/assets/images/avatars/avatar-2.jpg" class="rounded-full w-8 h-8">
-                            <div class="flex-1 p-2">
-                                consectetuer adipiscing elit, sed diam nonummy nibh euismod
-                            </div>
-                        </div>
-
-                        <div class="flex flex-1 items-center space-x-2">
-                            <img src="/assets/images/avatars/avatar-4.jpg" class="rounded-full w-8 h-8">
-                            <div class="flex-1 p-2">
-                                consectetuer adipiscing elit
-                            </div>
-                        </div>
-
-                    </div>
-
-
-                    </div>
-                    <div class="p-3 border-t dark:border-gray-600">
-                        <div class="bg-gray-200 dark:bg-gray-700 rounded-full rounded-md relative">
-                            <input type="text" placeholder="Add your Comment.." class="bg-transparent max-h-8 shadow-none">
-                            <div class="absolute bottom-0 flex h-full items-center right-0 right-3 text-xl space-x-2">
-                                <a href="#"> <i class="uil-image"></i></a>
-                                <a href="#"> <i class="uil-video"></i></a>
-                            </div>
-                        </div>
-                    </div>
-
+                                @endforeach
+                    @endforeach
                 </div>
 
-        </div>
+
+                </div>
+                <div class="p-3 border-t dark:border-gray-600">
+                    <div class="bg-gray-200 dark:bg-gray-700 rounded-full rounded-md relative">
+                        <form action="">
+                            @csrf
+                            <input type="hidden" name="user_id" id="user_id" value="{{ auth()->user()->id }}">
+                            <input type="hidden" name="post_id" id="post_id" value="{{ $post->id }}">
+                            <input type="text" placeholder="Add your Comment.." class="bg-transparent max-h-8 shadow-none">
+                        <div class="absolute bottom-0 flex h-full items-center right-0 right-3 text-xl space-x-2">
+                            <i class="uil-arrow-circle-right" id="arrowKirim"></i>
+                        </div>
+                        </form>
+                        
+                    </div>
+                </div>
+
+            </div>
+
     </div>
+</div>
    @endforeach
    <div id="story-modal88" class="" uk-modal>
     <div class="uk-modal-dialog">

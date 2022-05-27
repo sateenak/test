@@ -26,6 +26,7 @@ class PostController extends Controller
     public function index(Post $post)
     {
         $user = Auth::user()->follows->pluck('id');
+
         $postsaya = Post::whereIn('user_id', $user)->orWhere('user_id', Auth::user()->id)->latest()->get();
         $data = Follow::where('following_user_id', auth()->User()->id)->count();
         return view('feed', [

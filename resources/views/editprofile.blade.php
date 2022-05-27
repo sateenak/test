@@ -72,18 +72,18 @@
   </form>
   </div>
   <script>
-          function previewImage(){
-  const image = document.querySelector('#profile');
-  const imgPreview = document.querySelector('.img-preview');
-  imgPreview.style.display = 'block';
-  const oFReader = new FileReader();
-  oFReader.readAsDataURL(image.files[0]);
-  oFReader.onload = function(oFREvent){
-    imgPreview.src = oFREvent.target.result;
-  }
-  }
-  $('#button').click(function(){
-   $("input[type='file']").trigger('click');
-})
+//           function previewImage(){
+//   const image = document.querySelector('#profile');
+//   const imgPreview = document.querySelector('.img-preview');
+//   imgPreview.style.display = 'block';
+//   const oFReader = new FileReader();
+//   oFReader.readAsDataURL(image.files[0]);
+//   oFReader.onload = function(oFREvent){
+//     imgPreview.src = oFREvent.target.result;
+//   }
+//   }
+//   $('#button').click(function(){
+//    $("input[type='file']").trigger('click');
+// })
   </script>
 @endsection

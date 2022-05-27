@@ -155,9 +155,16 @@
                             <div class="flex justify-between items-center px-4 py-3">
                                 <div class="flex flex-1 items-center space-x-4">
                                     <a href="#">
-                                        <div class="bg-gradient-to-tr from-yellow-600 to-pink-600 p-0.5 rounded-full">  
+                                        @if ($post->user->profile)
+                                             <div class="bg-gradient-to-tr from-yellow-600 to-pink-600 p-0.5 rounded-full"> 
+                                            <img src="{{ asset('/storage/'.$post->user->profile) }}" class="bg-gray-200 border border-white rounded-full w-8 h-8">
+                                        </div>
+                                        @else
+                                        <div class="bg-gradient-to-tr from-yellow-600 to-pink-600 p-0.5 rounded-full"> 
                                             <img src="assets/images/avatars/avatar-2.jpg" class="bg-gray-200 border border-white rounded-full w-8 h-8">
                                         </div>
+                                        @endif
+                                       
                                     </a>
                                     <span class="block capitalize font-semibold dark:text-gray-100"> {{ $post->user->name }} </span>
                                 </div>
@@ -295,24 +302,29 @@
                                 </div>
                                 <div class="story-content p-4" data-simplebar id="readmoreHeader{{ $post->id }}">
                                     <style>
-                                        .cursoruntukPoint:hover{
+                                        .uil-thumbs-up:hover{
                                             cursor: pointer;
                                         }
                                         #moreeee{
                                             display: none;
                                         }
                                     </style>
-                                    <p>{{ substr($post->content, 0, 25) }}
+                                    @if (strlen($post->content) > 25)
+                                        <p>{{ substr($post->content, 0, 25) }}
                                         <span id="dots">...</span>
                                         <span id="moreeee">{{ substr($post->content, 25, null) }}</span>
                                     </p>
                                     <button id="myBtn" class="moreeee">Read more</button>
+                                    @else
+                                    <p>{{ substr($post->content, 0, 25) }}
+                                    @endif
+                                    
                                 </div>
                             </div>
                             
     
-                            <div class="py-3 px-4 space-y-3"> 
-                               <div id="formUntuk{{ $post->id }}">
+                            <div class="py-3 px-4 space-y-3">
+                                <div id="formUntuk{{ $post->id }}" class="space-y-3">
                                    <div class="flex space-x-4 lg:font-bold">
                                     <form class="flex items-center space-x-2">
                                         @csrf
@@ -363,10 +375,9 @@
                                            
                                     </div>
                                 </div>
-                               </div>
                                 
-
-                                <div class="border-t pt-4 space-y-4 dark:border-gray-600" id="commentUser{{ $post->id }}">
+<div id="hhhaaa{{ $post->id }}" class="space-y-3">
+    <div class="border-t pt-4 space-y-4 dark:border-gray-600" id="commentUser{{ $post->id }}">
                                     @foreach ($post->comments()->latest()->limit(2)->get() as $item)
                                         <div class="flex">
                                         <div class="w-10 h-10 rounded-full relative flex-shrink-0">
@@ -393,6 +404,10 @@
                                     </form>
                                     
                                 </div>
+</div>
+                                
+                                    </div> 
+                              
     
                             </div>
     
@@ -624,6 +639,7 @@
             let _token = $('input[name="_token"]').val();
             let url = '{{ route('like.add') }}';
             let hii = e.target.parentElement.parentElement.parentElement.parentElement.getAttribute('id');
+            console.log(hii);
                         $.ajax({
                 url:url,
                 type:"POST",
@@ -646,7 +662,8 @@
                 let post_id = e.target.parentElement.previousElementSibling.value;
                 let user_id = e.target.parentElement.previousElementSibling.previousElementSibling.value;
                 let comment_body = e.target.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.value;
-                let commentBoxId = e.target.parentElement.parentElement.parentElement.previousElementSibling.getAttribute('id');
+                let commentBoxId = e.target.parentElement.parentElement.parentElement.parentElement.getAttribute('id');
+                console.log(commentBoxId);
                 let url = '{{ route('comment.add') }}';
                 let _token = $('input[name="_token"]').val();
                 $.ajax({
